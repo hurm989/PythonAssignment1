@@ -1,0 +1,12 @@
+Hi hurmat!
+
+We've found the best article for you based on your interest: abc
+Please click xyz to open the article
+Hi hurmatNaz!
+
+We've found the best article for you based on your interest: sports
+Please click www.sports.com to open the article
+Hi hur!
+
+We've found the best article for you based on your interest: game
+Please click www.games.com to open the article
