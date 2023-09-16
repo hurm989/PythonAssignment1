@@ -190,43 +190,40 @@ item_storage = [
 # above program should not accept this item as the slot is already booked by the first iteration
 
 
-# import pytz
-# from datetime import datetime
+item_storage = []
 
-# item_storage = []
+def is_slot_available(start_date, end_date):
+    for item in item_storage:
+        if start_date >= item["start_date"] and start_date < item["end_date"]:
+            return False
+    return True
 
-# def is_slot_available(start_date, end_date):
-#     for item in item_storage:
-#         if start_date >= item["start_date"] and start_date < item["end_date"]:
-#             return False
-#     return True
+# Main loop to accept user input and check availability
+for _ in range(5):
+    start_date_str = input("Enter the start datetime (YYYY-MM-DD HH:MM:SS): ")
+    end_date_str = input("Enter the end datetime (YYYY-MM-DD HH:MM:SS): ")
+    timezone_str = input("Enter the timezone (e.g., 'Asia/Karachi'): ")
 
-# # Main loop to accept user input and check availability
-# for _ in range(5):
-#     start_date_str = input("Enter the start datetime (YYYY-MM-DD HH:MM:SS): ")
-#     end_date_str = input("Enter the end datetime (YYYY-MM-DD HH:MM:SS): ")
-#     timezone_str = input("Enter the timezone (e.g., 'Asia/Karachi'): ")
+    try:
+        # Parse input strings into datetime objects and set the timezone
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d %H:%M:%S")
+        timezone = pytz.timezone(timezone_str)
 
-#     try:
-#         # Parse input strings into datetime objects and set the timezone
-#         start_date = datetime.strptime(start_date_str, "%Y-%m-%d %H:%M:%S")
-#         end_date = datetime.strptime(end_date_str, "%Y-%m-%d %H:%M:%S")
-#         timezone = pytz.timezone(timezone_str)
+        # Convert datetime objects to UTC timezone
+        start_date_utc = timezone.localize(start_date).astimezone(pytz.utc)
+        end_date_utc = timezone.localize(end_date).astimezone(pytz.utc)
 
-#         # Convert datetime objects to UTC timezone
-#         start_date_utc = timezone.localize(start_date).astimezone(pytz.utc)
-#         end_date_utc = timezone.localize(end_date).astimezone(pytz.utc)
+        # Check if the slot is available
+        if is_slot_available(start_date_utc, end_date_utc):
+            # If available, add to item_storage
+            item_storage.append({"start_date": start_date_utc, "end_date": end_date_utc})
+            print("item confirmed.")
+        else:
+            print("item slot is not available.")
+    except ValueError:
+        print("Invalid input format. Please use 'YYYY-MM-DD HH:MM:SS' for datetime.")
 
-#         # Check if the slot is available
-#         if is_slot_available(start_date_utc, end_date_utc):
-#             # If available, add to item_storage
-#             item_storage.append({"start_date": start_date_utc, "end_date": end_date_utc})
-#             print("item confirmed.")
-#         else:
-#             print("item slot is not available.")
-#     except ValueError:
-#         print("Invalid input format. Please use 'YYYY-MM-DD HH:MM:SS' for datetime.")
-
-# print(item_storage)
-# # for item in item_storage:
-# #     print(f"Start: {item['start_date']} - End: {item['end_date']}")
+print(item_storage)
+# for item in item_storage:
+#     print(f"Start: {item['start_date']} - End: {item['end_date']}")
