@@ -40,7 +40,7 @@ class Student:
     def list_courses(self):
         return self.courses
     def enroll(self,courseName):
-        print(any(ele in courseName for ele in self.courses))
+        # print(any(ele in courseName for ele in self.courses))
         if(any(ele in courseName for ele in Student.available_courses)):
             self.courses.append(courseName)
             return self.courses
